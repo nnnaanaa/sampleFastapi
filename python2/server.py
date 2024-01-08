@@ -1,5 +1,7 @@
 ﻿#!python2.7
+# http://localhost:5000/api/data?argument1=value1&argument2=value2&argument3=value3
 
+from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from urlparse import urlparse, parse_qs
 import json
@@ -11,10 +13,17 @@ class SimpleRequestHandler(BaseHTTPRequestHandler):
         query_params = parse_qs(parsed_path.query)
 
         # 引数を取得
-        argument_value = query_params.get('argument_name', ['default_value'])[0]
+        argument1_value = query_params.get('argument1', ['default_value1'])[0]
+        argument2_value = query_params.get('argument2', ['default_value2'])[0]
+        argument3_value = query_params.get('argument3', ['default_value3'])[0]
 
         # レスポンスを構築
-        response_data = {'message': 'Hello from the API with argument: {}'.format(argument_value)}
+        response_data = {
+            'message': 'Hello from the custom API endpoint with arguments:',
+            'argument1': argument1_value,
+            'argument2': argument2_value,
+            'argument3': argument3_value
+        }
         response_body = json.dumps(response_data)
 
         # CORSヘッダを設定
@@ -37,4 +46,3 @@ def run_server():
 
 if __name__ == '__main__':
     run_server()
-
