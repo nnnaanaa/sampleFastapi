@@ -1,35 +1,24 @@
 version: '3'
 services:
   web_server:
-    image: python:2.7
+    build: ./server
     container_name: web_server
+    tty: true
     volumes:
-      - ./server.py:/usr/src/app/server.py
-      - ./requirements.txt:/usr/src/app/requirements.txt
-    working_dir: /usr/src/app
-    command: >
-      sh -c "pip install -r requirements.txt && python server.py"
+      - .:/usr/src/app
     expose:
-      - 5000
-    # ports:
-    #   - "5000:5000"
+      - "5000"
     networks:
       - my_network
 
   client:
-    image: python:2.7
-    # container_name: client-container
-    volumes:
-      - ./client.py:/usr/src/app/client.py
-      - ./requirements.txt:/usr/src/app/requirements.txt
-    working_dir: /usr/src/app
-    # ports:
-    #   - "5000:5000"
-    command: >
-      sh -c "pip install -r requirements.txt && python client.py"
-    depends_on:
-      - web_server
+    build: ./client
+    container_name: client
     tty: true
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - my_network
 
 networks:
   my_network:
