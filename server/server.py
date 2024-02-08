@@ -5,12 +5,6 @@ from typing import Union
 from fastapi import FastAPI
 app = FastAPI()
 
-print("ui beam")
-
-@app.get("/hello")
-async def hello():
-    return {"message": "hello world!"}
-
 @app.get("/users/{user_id}/items/{item_id}")
 async def read_user_item(
     user_id: int, item_id: str, q: Union[str, None] = None, short: bool = False

@@ -1,17 +1,14 @@
-# ベースイメージを指定
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
+FROM python:3.9-buster
+ENV PYTHONUNBUFFERED=1
 
-# 必要なファイルをコピー
-COPY . /usr/src/app/server
+WORKDIR /usr/src/app
+COPY . ./
 
-# 作業ディレクトリを設定
-WORKDIR /usr/src/app/server
+RUN pip3 install --upgrade pip
+RUN pip3 install fastapi
+RUN pip3 install "uvicorn[standard]"
+RUN pip3 install requests
 
-# requirements.txtからパッケージをインストール
-RUN pip install --no-cache-dir -r requirements.txt
-
-# FastAPIのポートをエクスポート
 EXPOSE 5000
 
-# イメージ内でコマンドを実行（FastAPIサーバーを起動）
-CMD ["uvicorn", "server:app", "--port", "5000", "--reload"]
+ENTRYPOINT ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]
