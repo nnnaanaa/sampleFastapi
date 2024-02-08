@@ -1,0 +1,22 @@
+version: '3'
+services:
+  web_server:
+    build: ./server
+    container_name: web_server
+    tty: true
+    expose:
+      - "5000"
+    networks:
+      - api_network
+
+  client:
+    build: ./client
+    container_name: client
+    tty: true
+    networks:
+      - api_network
+    depends_on:
+      - web_server
+
+networks:
+  api_network:
