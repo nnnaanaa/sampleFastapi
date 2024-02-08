@@ -1,4 +1,3 @@
-# http://ipaddress:port/users/100/items/100?q=100&short=True
 # reference https://fastapi.tiangolo.com/ja/tutorial/query-params/
 
 from typing import Union
